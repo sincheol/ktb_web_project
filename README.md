@@ -8,6 +8,8 @@ AI 정보 공유 게시판을 통해 사용자들이 정보를 공유할 수 있
 
 해당 프로젝트는 기초적인 웹사이트이지만, AI관련 기능(RAG)에 좀 더 초점을 두었습니다.
 
+!정확히는 Lexical RAG이지만 DB를 postgres로 변경해 Keyword + Vector : Hybrid RAG까지 구현할 예정입니다!
+
 🏗️ 아키텍처 및 폴더 구조
 
 Router-Controller-Model의 계층형 아키텍처를 준수했습니다.
