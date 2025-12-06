@@ -79,20 +79,23 @@ npm run dev
 👉 브라우저에서 http://localhost:5173 으로 접속
 
 Step 3. Database 설정
-
+```
 CREATE DATABASE user_info;
 
 USE user_info;
-
+```
 -- 사용자 테이블
+```
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     nickname VARCHAR(50) NOT NULL
 );
+```
 
 -- 게시글 테이블
+```
 CREATE TABLE posts (
     post_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -101,7 +104,7 @@ CREATE TABLE posts (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
-
+```
 
 3. 서버 실행
 
@@ -123,11 +126,9 @@ Swagger UI 접속: http://127.0.0.1:8000/docs 에서 모든 API를 테스트할 
 
 +게시글 수정 추가해야 함.
 
-+query문 업데이트를 통해 chat에서 최신글 5개 -> 해당 키워드가 포함된 게시글을 가져오는 것으로 수정
-
 +mysql -> PostgreSQL로 바꿀 예정(벡터 데이터활용)
 
-최신글 5개를 기반으로 대답을 함. 모델이 가벼워 질문에 따라 게시글을 못가져오거나 추가적인 정보를 주지 못하는 상황도 발생.
+query문 업데이트를 통해 'chat에서 최신글 5개' -> '해당 키워드가 포함된 게시글을 가져오는 것으로 수정'
 
 향후 query문을 업데이트, 좀 더 무거운 모델을 통해 사용자의 질문에 대한 게시글만 가져와 내용을 더 보강해서 대답하게 만들 예정..
 
@@ -154,3 +155,6 @@ Swagger UI 접속: http://127.0.0.1:8000/docs 에서 모든 API를 테스트할 
 
 글을 읽었지만 못찾는다는 답변을 하는 이상한 케이스.. :
 ![alt text](image-3.png)
+
+version 0.2 - 키워드를 뽑아 게시글에서 검색해 답변을 해주게 만듬(질문을 명사로 해야 먹힘..) : 
+![alt text](image-6.png)

@@ -16,20 +16,20 @@ async def chat_with_rag(request: Request):
         return {"error": "Invalid JSON"}
     
     # Retrieval : DB에서 최신 게시글 문맥 가져오기
-    community_context = get_posts_context(limit = 5)
+    community_context = get_posts_context(keyword = user_question, limit = 5)
 
     # Augmented : prompt보강
     system_prompt = f"""
     You are an AI chatbot that fully understands the contents of community posts.
-    Please answer the user's question by regerring to the [Latest Post List] below.
-    If the content is not in the posts, answer as an AI expert.
+    Please answer the user's question by referring to the [Search Results] below.
+    If the content is not in the posts, answer as an AI expert with general knowledge.
     You have to answer in Korean.
 
     [최신 글]
     {community_context}
     """
 
-    # prompt, question 묶기
+    # system(prompt), user(question) 묶기
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_question}
