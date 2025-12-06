@@ -1,4 +1,103 @@
-__pycache__
-.env
+# ------------------------------------------------
+# 공통 및 시스템 파일 (OS & IDE)
+# ------------------------------------------------
+# Mac OS
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+*.code-workspace
+
+# JetBrains (Pycharm, WebStorm 등)
+.idea/
+
+# ------------------------------------------------
+# Python (FastAPI 백엔드)
+# ------------------------------------------------
+# 컴파일된 파일
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 가상 환경 폴더
+venv/
+env/
+.venv/
+.env/
+
+# 배포 및 빌드 관련
+build/
+dist/
+develop-eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 테스트 및 타입 체크
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# ------------------------------------------------
+# MySQL 및 Database 관련
+# ------------------------------------------------
+# Docker를 사용해서 MySQL을 띄울 경우 생성되는 데이터 폴더
+mysql_data/
+mysql-data/
+db_data/
+data/mysql/
+
+# 데이터베이스 덤프(백업) 파일
+# (개발 중 임시로 뽑은 대용량 데이터 쿼리 파일들)
+*.dump
+*.sql.gz
+backup.sql
+dump.sql
+database_backup/
+
+# MySQL 로그 파일 (로컬 설정에 따라 생성될 수 있음)
+mysql-error.log
+mysql-slow.log
+
+# Jupyter Notebook
 .ipynb_checkpoints
+
+# ------------------------------------------------
+# Node.js (React + Vite 프론트엔드)
+# ------------------------------------------------
+# 의존성 패키지 (절대 올리면 안 됨)
+node_modules/
+
+# Vite 빌드 결과물
+dist/
+dist-ssr/
+
+# 로그 파일들
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ------------------------------------------------
+# 환경 변수 및 보안
+# ------------------------------------------------
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 예외: .env.example 파일은 템플릿용
+! .env.example

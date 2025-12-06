@@ -7,22 +7,39 @@
 Router-Controller-Model의 계층형 아키텍처를 준수했습니다.
 
 📦 Project Root
+
 ├── main.py                  # [현관문] 서버 실행, 미들웨어(세션, CORS) 설정, 라우터 등록
+
 ├── router/                  # [안내 데스크] URL 요청을 받아 적절한 컨트롤러로 연결
+
 │   ├── auth_router.py       # 로그인, 회원가입, 로그아웃
+
 │   ├── post_router.py       # 게시글 작성, 조회
+
 │   ├── chat_router.py       # AI 채팅 (RAG)
+
 │   └── system_router.py     # 서버 상태 확인 (Health check)
+
 ├── controller/              # [실무 담당자] 데이터 검증, 비즈니스 로직 판단, 예외 처리
+
 │   ├── auth_controller.py
+
 │   ├── post_controller.py
+
 │   ├── system_controller.py
+
 │   └── chat_controller.py   # RAG 로직 및 스트리밍 응답 제어
+
 ├── model/                   # [창고 관리자] 데이터베이스 쿼리(SQL) 실행 전담
+
 │   ├── user_model.py
+
 │   ├── post_model.py           
+
 │   └── chat_model.py        # AI가 읽기 좋게 게시글 데이터를 텍스트로 가공
+
 └── database
+
     └── connection.py # DB 접속 정보 관리
 
 ✨ 핵심 구현 기능
@@ -97,6 +114,18 @@ Swagger UI 접속: http://127.0.0.1:8000/docs 에서 모든 API를 테스트할 
 
 향후 query문을 업데이트해서 사용자의 질문에 대한 게시글만 가져와 내용을 더 보강해서 대답하게 만들 예정..
 
-[질문에 대한 답변]
+모델이 가벼워서 질문의 질에 따라 게시글을 잘 가져와 내용까지 보완할 때도 있지만 해당 키워드에 대한 게시글도 못가져올 때도 있음
+
+[질문에 대한 답변](backend)
 
 ![alt text](image.png)
+
+!Front End 추가!
+
+괜찮은 답변을 하는 케이스 :
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+
+글을 읽었지만 못찾는다는 답변을 하는 이상한 케이스..:
+![alt text](image-3.png)

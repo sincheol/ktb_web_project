@@ -2,19 +2,32 @@ from router.auth_router import router as auth_router
 from router.system_router import router as system_router
 from router.post_router import router as post_router
 from router.chat_router import router as chat_router
-
 '''
 각 파일에서는 router로 부르고 있으니 auth_, system_을 붙여줌
 '''
-
 from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
+from fastapi.middleware.cors import CORSMiddleware
+
 
 '''
 main->router->controller
 '''
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:5173", # VIte(React) 개발 서버 주소
+    "http://127.0.0.1:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials = True, # cookie(session) 주고 받으려면 필수
+    allow_methods = ["*"],
+    allow_headers = ["*"],
+)
 
 #이 사이트로 들어오고 나가는 모든 요청과 응답은 여기를 통과
 #max_age는 변경사항이 있을때만 실행됨
