@@ -7,6 +7,23 @@ import ollama
 # localhost지만 docker라면 host.docker.internal
 client = ollama.AsyncClient()
 
+async def extract_keywords(user_query, model_id):
+    system_prompt = """
+    You are a search query extractor. You will get user query in Korean.
+    Extract 1~3 core nouns or keywords from the user's question for database search.
+    Output ONLY the keywords separated by spaces. Do not write any other text.
+    Example : '서울에 돈까스 맛집 추천해줘' -> '서울 돈까스 맛집'
+    """
+
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_query}
+    ]
+
+    # 키워드 추출은 짧고 빨라야 해서 stream=False로 한 번에 받음.
+    response = await client.chat(model = model_id, messages = messages, stream = False)
+    return response['message']['content'].strip()
+
 async def chat_with_rag(request: Request):
     try:
         body = await request.json()
@@ -15,8 +32,11 @@ async def chat_with_rag(request: Request):
     except:
         return {"error": "Invalid JSON"}
     
+    search_keywords = await extract_keywords(user_question, model_id)
+    print(f"추출된 검색 키워드: {search_keywords}") # 로그 확인용
+    
     # Retrieval : DB에서 최신 게시글 문맥 가져오기
-    community_context = get_posts_context(keyword = user_question, limit = 5)
+    community_context = get_posts_context(keyword = search_keywords, limit = 5)
 
     # Augmented : prompt보강
     system_prompt = f"""

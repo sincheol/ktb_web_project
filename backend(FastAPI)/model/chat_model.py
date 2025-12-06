@@ -13,18 +13,32 @@ def get_posts_context(keyword = None, limit = 5):
         cursor = conn.cursor(dictionary = True)
 
         if keyword:
-            # title이나 content에 키워드가 포함된 글을 찾음
-            # !%키워드%를 통해 앞뒤에 다른 글자가 있어도 찾게 함!
-            search_term = f"%{keyword}%"
+            # 공백을 기준으로 분리함 -> !명사는 모델에게 뽑아달라고 할 예정!
+            keywords = keyword.split()
+
+            # 동적 쿼리 생성
+            where_clauses = []
+            params = []
+
+            for word in keywords:
+                where_clauses.append("(p.title LIKE %s OR p.content LIKE %s)")
+                # 검색어 앞뒤로 %-> 뒤에 뭐가 있어도 해당 명사를 찾을 수 있음
+                search_term = f"%{word}%"
+                params.extend([search_term, search_term]) # %s에 search_term 넣어주기
+
+            # OR로 조건들을 연결
+            full_where_clause = " OR ".join(where_clauses)
+
             sql = f"""
                 SELECT p.title, p.content, u.nickname
                 FROM posts p
                 JOIN users u ON p.user_id = u.id
-                WHERE p.title LIKE %s OR p.content LIKE %s
+                WHERE {full_where_clause}
                 ORDER BY p.created_at DESC
                 LIMIT {int(limit)}
                 """
-            cursor.execute(sql, (search_term, search_term)) # %s 두개에 search_term넘겨줌
+            cursor.execute(sql, tuple(params))
+
         else:
             # 키워드가 없으면 최신글 5개 중에서 가져옴
             sql = f"""
