@@ -1,6 +1,8 @@
-🚀 AI-Powered Community Backend Project (FastAPI + Ollama)
+🚀 AI-Powered Community Backend Project (React + FastAPI + Ollama)
 
-이 프로젝트는 FastAPI 백엔드 시스템 구축을 시작으로, MySQL 데이터베이스 연동, 그리고 **Local LLM (Gemma 3)**을 활용한 RAG(검색 증강 생성) 서비스까지 확장을 준비중인 프로젝트입니다.
+이 프로젝트는 FastAPI로 백엔드와 **Local LLM (Gemma 3)**을 활용한 RAG 챗봇 서비스를 구현하고, 이를 React(Vite)기반의 프론트엔드로 완성한 풀스택 프로젝트입니다.
+
+!AI 정보 공유 게시판입니다.
 
 🏗️ 아키텍처 및 폴더 구조
 
@@ -8,59 +10,58 @@ Router-Controller-Model의 계층형 아키텍처를 준수했습니다.
 
 📦 Project Root
 
-├── main.py                  # [현관문] 서버 실행, 미들웨어(세션, CORS) 설정, 라우터 등록
+├── backend/                 # [Backend] FastAPI Server
 
-├── router/                  # [안내 데스크] URL 요청을 받아 적절한 컨트롤러로 연결
+│   ├── main.py              # CORS 설정 및 앱 진입점
 
-│   ├── auth_router.py       # 로그인, 회원가입, 로그아웃
+│   ├── router/              # API 라우팅 (Auth, Post, Chat)
 
-│   ├── post_router.py       # 게시글 작성, 조회
+│   ├── controller/          # 비즈니스 로직 및 예외 처리
 
-│   ├── chat_router.py       # AI 채팅 (RAG)
+│   ├── model/               # DB 쿼리 및 RAG 검색 로직
 
-│   └── system_router.py     # 서버 상태 확인 (Health check)
+│   └── database/            # DB 연결 설정
 
-├── controller/              # [실무 담당자] 데이터 검증, 비즈니스 로직 판단, 예외 처리
+│
 
-│   ├── auth_controller.py
+├── frontend/                # [Frontend] React Client
 
-│   ├── post_controller.py
+│   ├── src/
 
-│   ├── system_controller.py
+│   │   ├── components/      # UI 컴포넌트 (Auth, Board, Chat)
 
-│   └── chat_controller.py   # RAG 로직 및 스트리밍 응답 제어
+│   │   ├── App.jsx          # 라우팅 및 전역 상태 관리
 
-├── model/                   # [창고 관리자] 데이터베이스 쿼리(SQL) 실행 전담
+│   │   └── index.css
 
-│   ├── user_model.py
+│   └── vite.config.js
 
-│   ├── post_model.py           
+│
 
-│   └── chat_model.py        # AI가 읽기 좋게 게시글 데이터를 텍스트로 가공
-
-└── database
-
-    └── connection.py # DB 접속 정보 관리
+└── README.md                # 프로젝트 문서
 
 ✨ 핵심 구현 기능
 
-1. 사용자 인증 (Authentication)
+1. 사용자 경험 중심의 프론트엔드 (React)
 
-세션 기반 로그인: SessionMiddleware를 사용하여 서버 메모리나 DB가 아닌, 브라우저 쿠키에 암호화된 세션 정보를 저장하는 방식을 사용.
+SPA 구현: react-router-dom을 사용하여 페이지 새로고침 없이 부드러운 화면 전환을 구현.
 
-회원가입/로그인: MySQL users 테이블과 연동하여 중복 가입 방지 로직을 구현.
+실시간 AI 응답 (Streaming): ReadableStream을 활용하여 백엔드에서 오는 AI 답변을 한 글자씩 타자기처럼 출력하는 효과를 구현, 대기 시간의 지루함을 없앰.
 
-2. 커뮤니티 게시판 (Board)
+통합 인증 관리: 로그인/회원가입 상태를 전역에서 관리하며, 세션 쿠키를 통해 안전하게 API 통신을 수행.
 
-게시글 작성/조회: 로그인한 사용자만 글을 쓸 수 있도록 권한을 제어.
+2. 강력한 백엔드 (FastAPI)
 
-3. AI 챗봇 & RAG (Retrieval-Augmented Generation)
+계층형 아키텍처: Router → Controller → Model 구조를 엄격히 지켜 유지보수성을 높임.
 
-맥락을 이해하는 AI: 사용자가 질문하면 chat_model이 DB에서 최신 게시글 5개를 조회.
+CORS & 보안: 프론트엔드([localhost]http://127.0.0.1:5173)와 백엔드([localhost]http://127.0.0.1:8000) 간의 통신을 위해 CORS를 설정하고, SameSite 쿠키 정책을 준수.
 
-프롬프트 엔지니어링: 조회한 게시글을 "문맥(Context)"으로 프롬프트에 주입하여, Ollama(Gemma 3)가 커뮤니티의 내용을 꿰뚫고 있음.
+3. RAG 기반 AI 챗봇
 
-스트리밍 응답: StreamingResponse를 적용.
+문맥 인식: 사용자가 질문하면 DB에서 관련 게시글을 검색(Retrieval)하여 프롬프트를 증강(Augmented).
+
+Gemma 3 활용: 로컬 LLM인 Gemma 3에게 "커뮤니티 전문가, AI 전문가"라는 페르소나를 부여하여 한국어로 자연스러운 답변을 생성.
+
 
 🚀 설치 및 실행 가이드
 
@@ -108,13 +109,11 @@ Swagger UI 접속: http://127.0.0.1:8000/docs 에서 모든 API를 테스트할 
 
 🎯 최종 목표 및 향후 계획 (Future Roadmap)
 
-아직은 게시글을 가져와서 어떤 내용이 있는지에 대해서만 얘기하는 Context Stuffing 단계에 있음.
+최신글 5개를 기반으로 대답을 함. 모델이 가벼워 질문에 따라 게시글을 못가져오거나 추가적인 정보를 주지 못하는 상황도 발생.
 
-그마저도 최신글 5개를 기반으로만 함.
+향후 query문을 업데이트, 좀 더 무거운 모델을 통해 사용자의 질문에 대한 게시글만 가져와 내용을 더 보강해서 대답하게 만들 예정..
 
-향후 query문을 업데이트해서 사용자의 질문에 대한 게시글만 가져와 내용을 더 보강해서 대답하게 만들 예정..
-
-모델이 가벼워서 질문의 질에 따라 게시글을 잘 가져와 내용까지 보완할 때도 있지만 해당 키워드에 대한 게시글도 못가져올 때도 있음
+아래는 backend api와 front end를 추가해 실험한 사진.
 
 [질문에 대한 답변](backend)
 
