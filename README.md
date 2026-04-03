@@ -1,4 +1,4 @@
-🚀 AI-Powered Community Backend Project (React + FastAPI + Ollama)
+AI-Powered Community Backend Project (React + FastAPI + Ollama)
 
 이 프로젝트는 FastAPI로 백엔드와 **Local LLM (Gemma 3)**을 활용한 RAG 챗봇 서비스를 구현하고, 이를 React(Vite)기반의 프론트엔드로 완성한 풀스택 프로젝트입니다.
 
@@ -10,12 +10,12 @@ AI 정보 공유 게시판을 통해 사용자들이 정보를 공유할 수 있
 
 !정확히는 Lexical RAG이지만 DB를 postgres로 변경해 Keyword + Vector : Hybrid RAG까지 구현할 예정입니다!
 
-🏗️ 아키텍처 및 폴더 구조
+아키텍처 및 폴더 구조
 
 Router-Controller-Model의 계층형 아키텍처를 준수했습니다.
 
 ```
-📦 Project Root
+  Project Root
 ├── 📂 backend/                  # [Backend] FastAPI Server
 │   ├── main.py                  # CORS 설정 및 앱 진입점
 │   ├── 📂 router/               # API 라우팅 (Auth, Post, Chat)
@@ -33,7 +33,7 @@ Router-Controller-Model의 계층형 아키텍처를 준수했습니다.
 └── 📄 README.md                 # 프로젝트 문서
 ```
 
-✨ 핵심 구현 기능
+ 핵심 구현 기능
 
 1. 사용자 경험 중심의 프론트엔드 (React)
 
@@ -56,7 +56,7 @@ CORS & 보안: 프론트엔드([localhost]http://127.0.0.1:5173) 와 백엔드([
 Gemma 3 활용: 로컬 LLM인 Gemma 3에게 "커뮤니티 전문가, AI 전문가"라는 페르소나를 부여하여 한국어로 자연스러운 답변을 생성.
 
 
-🚀 설치 및 실행 가이드
+ 설치 및 실행 가이드
 
 Step 1. 백엔드 실행 (Terminal 1)
 
@@ -80,7 +80,7 @@ npm install
 npm run dev
 ```
 
-👉 브라우저에서 http://localhost:5173 으로 접속
+ 브라우저에서 http://localhost:5173 으로 접속
 
 Step 3. Database 설정
 ```
@@ -122,7 +122,7 @@ uvicorn main:app --reload
 Swagger UI 접속: http://127.0.0.1:8000/docs 에서 모든 API를 테스트할 수 있습니다.
 
 
-🎯 최종 목표 및 향후 계획 (Future Roadmap)
+ 최종 목표 및 향후 계획 (Future Roadmap)
 
 +비밀번호 유효성 검사를 추가해야 함.
 
